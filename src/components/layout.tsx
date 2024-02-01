@@ -57,7 +57,6 @@ export default function Layout() {
           <Link to="/">
             <MenuItem>
               <svg
-                dataSlot="icon"
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
@@ -70,7 +69,6 @@ export default function Layout() {
           <Link to="/profile">
             <MenuItem>
               <svg
-                dataSlot="icon"
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
@@ -86,7 +84,6 @@ export default function Layout() {
           </Link>
           <MenuItem className="log-out" onClick={onLogOUt}>
             <svg
-              dataSlot="icon"
               fill="currentColor"
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
