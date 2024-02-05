@@ -12,10 +12,20 @@ import {
   Photo,
 } from "./tweetStyles";
 
-export default function tweet({ username, photo, tweet, userId, id }: ITweet) {
+export default function tweet({
+  username,
+  photo,
+  tweet,
+  userId,
+  id,
+  setEdit,
+}: ITweet) {
   const user = auth.currentUser;
 
-  const onEdit = async () => {};
+  const onEdit = async () => {
+    console.log("onEdit is worked!!!");
+    setEdit(true);
+  };
   const onDelete = async () => {
     const ok = confirm("Are you sure About Delete Tweet?");
     if (!ok || user?.uid != userId) return;

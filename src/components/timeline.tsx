@@ -18,16 +18,22 @@ export interface ITweet {
   userId: string;
   username: string;
   createdAt: number;
+  setEdit: (editable: boolean) => void;
 }
+
 const Wrapper = styled.div`
   display: flex;
   gap: 10px;
   flex-direction: column;
   overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export default function TimeLine() {
   const [tweets, setTweet] = useState<ITweet[] | null>([]);
+  const [isEditable, setEditable] = useState(false);
 
   useEffect(() => {
     let unsubscribe: Unsubscribe | null = null;
@@ -37,19 +43,7 @@ export default function TimeLine() {
         orderBy("createAt", "desc"),
         limit(25)
       );
-      // const snapshot = await getDocs(tweetsQuery);
-      // const tweets = snapshot.docs.map((doc) => {
-      //   const { photo, tweet, userId, username, createdAt } = doc.data();
 
-      //   return {
-      //     id: doc.id,
-      //     photo,
-      //     tweet,
-      //     userId,
-      //     username,
-      //     createdAt,
-      //   };
-      // });
       unsubscribe = await onSnapshot(tweetsQuery, (snapshot) => {
         const tweets = snapshot.docs.map((doc) => {
           const { photo, tweet, userId, username, createdAt } = doc.data();
@@ -61,6 +55,7 @@ export default function TimeLine() {
             userId,
             username,
             createdAt,
+            setEdit: setEditable,
           };
         });
         setTweet(tweets);
@@ -72,6 +67,9 @@ export default function TimeLine() {
       unsubscribe && unsubscribe();
     };
   }, []);
+  useEffect(() => {
+    console.log(isEditable);
+  }, [isEditable]);
 
   return (
     <Wrapper>
