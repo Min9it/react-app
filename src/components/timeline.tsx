@@ -8,24 +8,15 @@ import {
 import { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import { db } from "../firebase";
-import Tweet from "./tweet";
 import { Unsubscribe } from "firebase/auth";
-
-export interface ITweet {
-  id: string;
-  photo?: string;
-  tweet: string;
-  userId: string;
-  username: string;
-  createdAt: number;
-  setEdit: (editable: boolean) => void;
-}
+import { ITweet } from "./ITweet";
+import Tweet from "./tweet";
 
 const Wrapper = styled.div`
+  overflow-y: auto;
   display: flex;
-  gap: 10px;
   flex-direction: column;
-  overflow-y: scroll;
+  gap: 10px;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -33,7 +24,6 @@ const Wrapper = styled.div`
 
 export default function TimeLine() {
   const [tweets, setTweet] = useState<ITweet[] | null>([]);
-  const [isEditable, setEditable] = useState(false);
 
   useEffect(() => {
     let unsubscribe: Unsubscribe | null = null;
@@ -55,7 +45,6 @@ export default function TimeLine() {
             userId,
             username,
             createdAt,
-            setEdit: setEditable,
           };
         });
         setTweet(tweets);
@@ -67,9 +56,6 @@ export default function TimeLine() {
       unsubscribe && unsubscribe();
     };
   }, []);
-  useEffect(() => {
-    console.log(isEditable);
-  }, [isEditable]);
 
   return (
     <Wrapper>
