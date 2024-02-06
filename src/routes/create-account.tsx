@@ -10,7 +10,7 @@ import {
   Input,
   Switcher,
   Error,
-} from "../components/auth-components";
+} from "../styles/auth-components";
 import GithubButton from "../components/github-btn";
 
 export default function CreateAccount() {

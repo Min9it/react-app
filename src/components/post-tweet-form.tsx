@@ -8,12 +8,14 @@ import {
   AttachFileButton,
   AttachFileInput,
   SubmitBtn,
-} from "./tweetFormStyles";
+} from "../styles/tweet-form";
+import {
+  MAX_FILE_SIZE_KB,
+  MAX_FILE_SIZE_MB,
+  TWEET_MAX_SIZE,
+} from "./tweet-file-policy";
 
 export default function PostTweetForm() {
-  const TWEET_MAX_SIZE = 1800;
-  const MAX_FILE_SIZE_MB = 1;
-  const MAX_FILE_SIZE_KB = MAX_FILE_SIZE_MB * 1024 * 1024;
   const [disabled, setDisabled] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [tweet, setTweet] = useState("");
