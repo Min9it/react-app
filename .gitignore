@@ -24,4 +24,4 @@ dist-ssr
 *.sw?
 
 # Firebase Auth Key Config
-firebase.ts
+src/firebase.ts
