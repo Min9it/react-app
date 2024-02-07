@@ -4,5 +4,5 @@ export interface ITweet {
   tweet: string;
   userId: string;
   username: string;
-  createdAt: number;
+  createAt: number;
 }

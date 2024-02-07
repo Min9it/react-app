@@ -36,7 +36,7 @@ export default function TimeLine() {
 
       unsubscribe = await onSnapshot(tweetsQuery, (snapshot) => {
         const tweets = snapshot.docs.map((doc) => {
-          const { photo, tweet, userId, username, createdAt } = doc.data();
+          const { photo, tweet, userId, username, createAt } = doc.data();
 
           return {
             id: doc.id,
@@ -44,7 +44,7 @@ export default function TimeLine() {
             tweet,
             userId,
             username,
-            createdAt,
+            createAt,
           };
         });
         setTweet(tweets);
