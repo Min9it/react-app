@@ -24,6 +24,13 @@ export const Username = styled.span`
   font-weight: 600;
   font-size: 15px;
 `;
+export const CreateTime = styled.span`
+  font-weight: 300;
+  font-size: 10px;
+  font-color: lightgray;
+  float: right;
+`;
+
 export const Payload = styled.p`
   margin: 10px 0px;
   font-size: 18px;

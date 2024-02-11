@@ -9,12 +9,21 @@ import {
   EditButton,
   DeleteButton,
   Photo,
+  CreateTime,
 } from "../styles/tweet";
 import { ITweet } from "./ITweet";
 import EditTweetForm from "./edit-tweet-form";
 import { useState } from "react";
+import { elapsedTime } from "../utils/timeUtil";
 
-export default function Tweet({ username, photo, tweet, userId, id }: ITweet) {
+export default function Tweet({
+  username,
+  photo,
+  tweet,
+  userId,
+  id,
+  createAt,
+}: ITweet) {
   const [isEditable, setEditable] = useState(false);
   const user = auth.currentUser;
 
@@ -67,7 +76,10 @@ export default function Tweet({ username, photo, tweet, userId, id }: ITweet) {
           </div>
         ) : null}
       </Column>
-      <Column>{photo ? <Photo src={photo} /> : null}</Column>
+      <Column>
+        <CreateTime>{elapsedTime(createAt)}</CreateTime>
+        {photo ? <Photo src={photo} /> : null}
+      </Column>
     </Wrapper>
   );
 }
