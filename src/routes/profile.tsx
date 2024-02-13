@@ -5,7 +5,6 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
 import {
   collection,
-  doc,
   getDocs,
   limit,
   orderBy,
@@ -201,7 +200,7 @@ export default function Profile() {
           <NameInput
             name="nickname"
             type="text"
-            value={nickname}
+            value={nickname ?? ""}
             onChange={onChangeName}
           />
           <EditButton type="submit">Edit</EditButton>
@@ -218,9 +217,9 @@ export default function Profile() {
         </Name>
       )}
       <Tweets>
-        {tweets?.map((tweet) => (
-          <Tweet key={tweet.id} {...tweet} />
-        ))}
+        {tweets?.length == 0
+          ? "I haven't posted any tweets yet :("
+          : tweets?.map((tweet) => <Tweet key={tweet.id} {...tweet} />)}
       </Tweets>
     </Wrapper>
   );
