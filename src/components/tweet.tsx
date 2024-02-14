@@ -1,6 +1,7 @@
 import { auth, db, storage } from "../firebase";
 import { deleteDoc, doc } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
+import Tooltip from "@mui/material/Tooltip";
 import {
   Wrapper,
   Column,
@@ -77,7 +78,14 @@ export default function Tweet({
         ) : null}
       </Column>
       <Column>
-        <CreateTime>{elapsedTime(createAt)}</CreateTime>
+        <Tooltip
+          title={new Intl.DateTimeFormat("ko", {
+            dateStyle: "full",
+            timeStyle: "medium",
+          }).format(new Date(createAt))}
+        >
+          <CreateTime>{elapsedTime(createAt)}</CreateTime>
+        </Tooltip>
         {photo ? <Photo src={photo} /> : null}
       </Column>
     </Wrapper>
