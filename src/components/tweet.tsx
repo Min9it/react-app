@@ -15,7 +15,7 @@ import {
 import { ITweet } from "./ITweet";
 import EditTweetForm from "./edit-tweet-form";
 import { useState } from "react";
-import { elapsedTime } from "../utils/timeUtil";
+import { elapsedTime } from "../utils/time-util";
 
 export default function Tweet({
   username,
