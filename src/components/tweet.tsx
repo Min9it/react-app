@@ -1,7 +1,17 @@
 import { auth, db, storage } from "../firebase";
-import { deleteDoc, doc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
 import Tooltip from "@mui/material/Tooltip";
+import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
+import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
 import {
   Wrapper,
   Column,
@@ -14,8 +24,9 @@ import {
 } from "../styles/tweet";
 import { ITweet } from "./ITweet";
 import EditTweetForm from "./edit-tweet-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { elapsedTime } from "../utils/time-util";
+import { Unsubscribe } from "firebase/auth";
 
 export default function Tweet({
   username,
@@ -26,11 +37,27 @@ export default function Tweet({
   createAt,
 }: ITweet) {
   const [isEditable, setEditable] = useState(false);
+  const [isLike, setLike] = useState(false);
   const user = auth.currentUser;
+
+  const onClickToggleLike = async () => {
+    setLike((p) => !p);
+    if (user && !isLike) {
+      await addDoc(collection(db, "likes"), {
+        like: user?.uid,
+        tweet: id,
+        tweetOwner: userId,
+      });
+    } else {
+      //FIXME: Unlike 수정
+      await deleteDoc(doc(db, "likes", id));
+    }
+  };
 
   const onEdit = () => {
     setEditable((p) => !p);
   };
+
   const onDelete = async () => {
     const ok = confirm("Are you sure About Delete Tweet?");
     if (!ok || user?.uid != userId) return;
@@ -47,6 +74,29 @@ export default function Tweet({
       ok;
     }
   };
+
+  useEffect(() => {
+    if (!user) return;
+    let unsubscribe: Unsubscribe | null = null;
+
+    const fetchLikes = async () => {
+      const fetchQry = query(
+        collection(db, "likes"),
+        where("like", "==", user.uid),
+        where("tweet", "==", id)
+      );
+
+      unsubscribe = await onSnapshot(fetchQry, (snapshot) => {
+        const likes = snapshot.docs.find((doc) => doc.data().tweet === id);
+        setLike(!!likes);
+      });
+    };
+
+    fetchLikes();
+    return () => {
+      unsubscribe && unsubscribe();
+    };
+  }, []);
 
   return (
     <Wrapper>
@@ -87,6 +137,11 @@ export default function Tweet({
           <CreateTime>{elapsedTime(createAt)}</CreateTime>
         </Tooltip>
         {photo ? <Photo src={photo} /> : null}
+        {isLike ? (
+          <FavoriteRoundedIcon onClick={onClickToggleLike} />
+        ) : (
+          <FavoriteBorderRoundedIcon onClick={onClickToggleLike} />
+        )}
       </Column>
     </Wrapper>
   );
