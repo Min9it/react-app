@@ -49,8 +49,12 @@ export default function Tweet({
         tweetOwner: userId,
       });
     } else {
-      //FIXME: Unlike 수정
-      await deleteDoc(doc(db, "likes", id));
+      // Unlike
+      const qry = query(collection(db, "likes"), where("tweet", "==", id));
+
+      onSnapshot(qry, (snapshot) =>
+        snapshot.docs.forEach((doc) => deleteDoc(doc.ref))
+      );
     }
   };
 

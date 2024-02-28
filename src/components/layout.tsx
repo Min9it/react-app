@@ -60,6 +60,11 @@ export default function Layout() {
               <img className="image" src="/profile.svg" />
             </MenuItem>
           </Link>
+          <Link to="/friend">
+            <MenuItem>
+              <img className="image" src="/friend.svg" />
+            </MenuItem>
+          </Link>
           <MenuItem className="log-out" onClick={onLogOut}>
             <img className="image" src="/logout.svg" />
           </MenuItem>

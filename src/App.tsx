@@ -10,6 +10,7 @@ import LoadingScreen from "./components/loading-screen";
 import reset from "styled-reset";
 import { auth } from "./firebase";
 import ProtectedRoute from "./components/protected-route";
+import Friend from "./routes/friend";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: "profile",
         element: <Profile />,
+      },
+      {
+        path: "/friend",
+        element: <Friend />,
       },
     ],
   },
